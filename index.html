@@ -7,9 +7,8 @@
         .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; width: 300px; border: 1px solid #007bff; text-align: center; }
         input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; box-sizing: border-box; }
         button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #error { color: #ff4d4d; margin-top: 10px; font-size: 14px; }
+        #error { color: #ff4d4d; margin-top: 10px; font-size: 14px; min-height: 20px; }
         .signup-link { margin-top: 15px; font-size: 12px; color: #aaa; }
-        a { color: #007bff; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -19,26 +18,20 @@
         <input type="password" id="pass" placeholder="Password">
         <button onclick="login()">Login</button>
         <div id="error"></div>
-        <div class="signup-link">
-            Not registered? <a href="#">Sign up here</a>
-        </div>
+        <div class="signup-link">Not registered? <a href="signup.html">Sign up here</a></div>
     </div>
     <script>
         function login() {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
             const err = document.getElementById('error');
-
+            
+            // Validation Logic
             if(u === "Admin" && p === "Adnan786") {
-                localStorage.setItem('isAdmin', 'true');
-                window.location.href = "Dashboard.html";
-            } else if (u && p) {
-                // یہاں کسٹمر لاگ ان ہوگا
-                localStorage.setItem('isAdmin', 'false');
-                localStorage.setItem('installDate', new Date().getTime());
+                localStorage.setItem('isLoggedIn', 'true');
                 window.location.href = "Dashboard.html";
             } else {
-                err.innerText = "Please enter valid Username and Password!";
+                err.innerText = "Invalid Username or Password!";
             }
         }
     </script>
