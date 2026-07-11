@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Great Life 786 AI Suite</title>
+    <style>
+        body { margin: 0; background: #020c1b; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+        .container { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; border: 1px solid #007bff; }
+        button { width: 100%; padding: 15px; margin-top: 10px; background: #007bff; border: none; border-radius: 10px; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <button onclick="handleAction('Submit')">Submit Request</button>
+    </div>
+    <script>
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        function handleAction(type) {
+            if (!isAdmin) {
+                let installDate = localStorage.getItem('installDate');
+                let diff = (new Date().getTime() - installDate) / (1000 * 60 * 60 * 24);
+                if (diff > 15) { alert("Trial Expired!"); return; }
+            }
+            alert("Action Processed for: " + type);
+        }
+    </script>
+</body>
+</html>
