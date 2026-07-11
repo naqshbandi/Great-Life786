@@ -2,30 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { margin: 0; background: #081221; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); width: 600px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-        h2 { text-align: center; margin-bottom: 20px; }
+        body { margin: 0; background: #081221; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; padding: 10px; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); width: 100%; max-width: 600px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+        h2 { text-align: center; margin-bottom: 20px; font-size: 24px; }
         input, textarea { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 12px; margin-bottom: 15px; border-radius: 8px; box-sizing: border-box; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        button { background: rgba(255, 255, 255, 0.1); border: 1px solid #007bff; color: white; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+        button { background: rgba(255, 255, 255, 0.1); border: 1px solid #007bff; color: white; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 14px; }
         button:hover { background: #007bff; }
+        .submit-btn { width: 100%; margin-top: 15px; background: #007bff; font-weight: bold; padding: 15px; }
     </style>
 </head>
 <body>
     <div class="glass-card">
         <h2>Great Life 786 AI Suite</h2>
         <input type="text" placeholder="Enter project name...">
-        <textarea rows="4" placeholder="Enter your prompt here..."></textarea>
+        <textarea rows="3" placeholder="Enter your prompt here..."></textarea>
         <div class="grid">
-            <button onclick="alert('Text Generated')">Text Generation</button>
-            <button onclick="alert('Image Generated')">Image Generation</button>
-            <button onclick="alert('Video Processing')">AI Video</button>
-            <button onclick="alert('Text-to-Speech')">Text-Speech</button>
-            <button onclick="alert('Audio Edited')">Audio Edit</button>
-            <button onclick="alert('Project Editing Mode')">Edit Project</button>
+            <button>Text Generation</button>
+            <button>Image Generation</button>
+            <button>AI Video</button>
+            <button>Text-Speech</button>
+            <button>Audio Edit</button>
+            <button>Edit Project</button>
         </div>
-        <button style="width:100%; margin-top:15px; background:#007bff; font-weight:bold;">Submit Request</button>
+        <button class="submit-btn">Submit Request</button>
     </div>
 </body>
 </html>
