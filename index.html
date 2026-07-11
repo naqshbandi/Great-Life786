@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Life 786 AI Suite</title>
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at center, #0a192f, #020c1b);
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            color: white; overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 25px;
+            width: 90%; max-width: 600px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        h1 { margin-bottom: 25px; font-weight: 300; letter-spacing: 1px; color: #e0e0e0; }
+        input, textarea {
+            width: 100%; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white; padding: 15px; margin-bottom: 15px; border-radius: 12px; box-sizing: border-box;
+            outline: none; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: #007bff; background: rgba(0, 0, 0, 0.4); }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
+        button {
+            padding: 12px 5px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d0d0d0; border-radius: 10px; cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+        }
+        button:hover { background: rgba(0, 123, 255, 0.2); border-color: #007bff; color: white; }
+        .submit-btn {
+            width: 100%; padding: 18px; margin-top: 25px; background: linear-gradient(90deg, #007bff, #0056b3);
+            border: none; border-radius: 12px; color: white; font-weight: 600; font-size: 1.1rem;
+            cursor: pointer; transition: 0.4s; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        .submit-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Great Life 786 AI Suite</h1>
+        <input type="text" placeholder="Enter project name...">
+        <textarea rows="3" placeholder="Enter your prompt here..."></textarea>
+        
+        <div class="controls">
+            <button>Text Gen</button>
+            <button>Image Gen</button>
+            <button>AI Video</button>
+            <button>Text-Speech</button>
+            <button>Audio Edit</button>
+            <button>Edit Project</button>
+        </div>
+        
+        <button class="submit-btn">Submit Request</button>
+    </div>
+
+</body>
+</html>
