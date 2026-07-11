@@ -22,11 +22,11 @@
             const p = document.getElementById('pass').value;
             if(u === "Admin" && p === "1234") {
                 localStorage.setItem('isAdmin', 'true');
-                window.location.href = "dashboard.html";
+                window.location.href = "Dashboard.html";
             } else if (u && p) {
                 localStorage.setItem('isAdmin', 'false');
                 localStorage.setItem('installDate', new Date().getTime());
-                window.location.href = "dashboard.html";
+                window.location.href = "Dashboard.html";
             } else { alert("Enter details!"); }
         }
     </script>
