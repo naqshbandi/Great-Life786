@@ -4,30 +4,42 @@
     <title>Great Life 786 - Login</title>
     <style>
         body { background: #020c1b; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; width: 300px; border: 1px solid #007bff; }
+        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; width: 300px; border: 1px solid #007bff; text-align: center; }
         input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; box-sizing: border-box; }
         button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #error { color: #ff4d4d; margin-top: 10px; font-size: 14px; }
+        .signup-link { margin-top: 15px; font-size: 12px; color: #aaa; }
+        a { color: #007bff; text-decoration: none; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Great Life 786 Login</h2>
+        <h2>Login</h2>
         <input type="text" id="user" placeholder="Username">
         <input type="password" id="pass" placeholder="Password">
         <button onclick="login()">Login</button>
+        <div id="error"></div>
+        <div class="signup-link">
+            Not registered? <a href="#">Sign up here</a>
+        </div>
     </div>
     <script>
         function login() {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
-            if(u === "Admin" && p === "Dras123j@@") {
+            const err = document.getElementById('error');
+
+            if(u === "Admin" && p === "Adnan786") {
                 localStorage.setItem('isAdmin', 'true');
                 window.location.href = "Dashboard.html";
             } else if (u && p) {
+                // یہاں کسٹمر لاگ ان ہوگا
                 localStorage.setItem('isAdmin', 'false');
                 localStorage.setItem('installDate', new Date().getTime());
                 window.location.href = "Dashboard.html";
-            } else { alert("Enter details!"); }
+            } else {
+                err.innerText = "Please enter valid Username and Password!";
+            }
         }
     </script>
 </body>
