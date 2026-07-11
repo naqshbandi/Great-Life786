@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Great Life 786 AI Suite</title>
+    <meta charset="UTF-8">
     <style>
-        body { margin: 0; background: #020c1b; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        .container { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; border: 1px solid #007bff; }
-        button { width: 100%; padding: 15px; margin-top: 10px; background: #007bff; border: none; border-radius: 10px; color: white; cursor: pointer; }
+        body { margin: 0; background: #081221; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); width: 600px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+        h2 { text-align: center; margin-bottom: 20px; }
+        input, textarea { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 12px; margin-bottom: 15px; border-radius: 8px; box-sizing: border-box; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        button { background: rgba(255, 255, 255, 0.1); border: 1px solid #007bff; color: white; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #007bff; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Dashboard</h1>
-        <button onclick="handleAction('Submit')">Submit Request</button>
+    <div class="glass-card">
+        <h2>Great Life 786 AI Suite</h2>
+        <input type="text" placeholder="Enter project name...">
+        <textarea rows="4" placeholder="Enter your prompt here..."></textarea>
+        <div class="grid">
+            <button onclick="alert('Text Generated')">Text Generation</button>
+            <button onclick="alert('Image Generated')">Image Generation</button>
+            <button onclick="alert('Video Processing')">AI Video</button>
+            <button onclick="alert('Text-to-Speech')">Text-Speech</button>
+            <button onclick="alert('Audio Edited')">Audio Edit</button>
+            <button onclick="alert('Project Editing Mode')">Edit Project</button>
+        </div>
+        <button style="width:100%; margin-top:15px; background:#007bff; font-weight:bold;">Submit Request</button>
     </div>
-    <script>
-        const isAdmin = localStorage.getItem('isAdmin') === 'true';
-        function handleAction(type) {
-            if (!isAdmin) {
-                let installDate = localStorage.getItem('installDate');
-                let diff = (new Date().getTime() - installDate) / (1000 * 60 * 60 * 24);
-                if (diff > 15) { alert("Trial Expired!"); return; }
-            }
-            alert("Action Processed for: " + type);
-        }
-    </script>
 </body>
 </html>
