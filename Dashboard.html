@@ -1,88 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { margin: 0; background: #081221; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; padding: 10px; }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); width: 100%; max-width: 600px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-        h2 { text-align: center; margin-bottom: 20px; font-size: 24px; }
-        input, textarea { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 12px; margin-bottom: 15px; border-radius: 8px; box-sizing: border-box; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
-        button { background: rgba(255, 255, 255, 0.1); border: 1px solid #007bff; color: white; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 14px; }
-        button:hover { background: #007bff; }
-        .submit-btn { width: 100%; margin-top: 15px; background: #007bff; font-weight: bold; padding: 15px; }
-    </style>
-</head>
-<body>
-    <div class="glass-card">
-        <h2>Great Life786 AI Studio</h2>
-        <input type="text" placeholder="Enter project name...">
-        <textarea rows="3" placeholder="Enter your prompt here..."></textarea>
-        <div class="grid">
-            <button>Text Generation</button>
-            <button>Image Generation</button>
-            <button>AI Video</button>
-            <button>Text-Speech</button>
-            <button>Audio Edit</button>
-            <button>Edit Project</button>
-        </div>
-        <button class="submit-btn">Submit Request</button>
-    </div>
-</body>
-    <script>
+<script>
     let tool = "";
-    // بٹنوں کو سلیکٹ کرنے کا فنکشن
     document.querySelectorAll('.grid button').forEach(button => {
         button.onclick = function() {
-            document.querySelectorAll('.grid button').forEach(b => b.style.background = 'rgba(255, 255, 255, 0.05)');
+            document.querySelectorAll('.grid button').forEach(btn => btn.style.background = '');
             this.style.background = '#007bff';
             tool = this.innerText;
         };
     });
-let tool = "";
 
-document.querySelectorAll('.grid button').forEach(button => {
-    button.onclick = function() {
-        document.querySelectorAll('.grid button').forEach(btn => btn.style.background = '');
-        this.style.background = '#007bff';
-        tool = this.innerText;
-    };
-});
-
-document.querySelector('.submit-btn').onclick = async function() {
-    const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ 
-            prompt: document.querySelector('textarea').value, 
-            tool: tool 
-        })
-    });
-    const data = await res.json();
-    alert(data.message + "\n" + data.details);
-};
-
-        
-
-    // سبمٹ بٹن کا فنکشن
+    //
     document.querySelector('.submit-btn').onclick = async function() {
         const prompt = document.querySelector('textarea').value;
-        if(!tool || !prompt) { alert("براہ کرم ٹول اور پرامپٹ دونوں منتخب کریں!"); return; }
         
+        if (!tool || !prompt) {
+            alert("Slect Function Button!");
+            return;
+        }
+
         try {
             const res = await fetch('/api/generate', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ prompt, tool })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt, tool: tool })
             });
             const data = await res.json();
-            alert(data.message);
-        } catch (e) {
-            alert("سرور سے رابطہ نہیں ہو رہا۔");
+            alert(data.message || "!");
+        } catch (error) {
+            alert("Can't reach server");
         }
     };
 </script>
-
-</html>
-
