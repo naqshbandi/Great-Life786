@@ -1,39 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Great Life 786 - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Life 786 AI Suite</title>
     <style>
-        body { background: #020c1b; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; width: 300px; border: 1px solid #007bff; text-align: center; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #error { color: #ff4d4d; margin-top: 10px; font-size: 14px; min-height: 20px; }
-        .signup-link { margin-top: 15px; font-size: 12px; color: #aaa; }
+        :root { --green-glow: #00ff88; --dark-bg: #05100a; }
+        body { margin: 0; background: var(--dark-bg); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(15px); 
+            padding: 30px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(0, 255, 136, 0.3); 
+            width: 90%; max-width: 600px; 
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+        h2 { text-align: center; color: var(--green-glow); }
+        
+        .input-group { position: relative; margin-bottom: 15px; }
+        input, textarea { 
+            width: 100%; background: rgba(0, 0, 0, 0.3); 
+            border: 1px solid var(--green-glow); color: white; 
+            padding: 15px; border-radius: 10px; box-sizing: border-box; 
+        }
+        
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        button { 
+            background: rgba(0, 255, 136, 0.1); border: 1px solid var(--green-glow); 
+            color: white; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s;
+        }
+        button:hover, .active { background: var(--green-glow); color: black; font-weight: bold; }
+        
+        .eye-icon { position: absolute; right: 15px; top: 15px; cursor: pointer; color: var(--green-glow); }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>Login</h2>
-        <input type="text" id="user" placeholder="Username">
-        <input type="password" id="pass" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <div id="error"></div>
-        <div class="signup-link">Not registered? <a href="signup.html">Sign up here</a></div>
+
+<div class="glass-card">
+    <h2>Great Life 786 AI Suite</h2>
+    
+    <!-- لاگ ان/سائن اپ فیلڈز -->
+    <div class="input-group">
+        <input type="email" id="email" placeholder="Email...">
     </div>
-    <script>
-        function login() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const err = document.getElementById('error');
-            
-            // Validation Logic
-            if(u === "Admin" && p === "Adnan786") {
-                localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = "Dashboard.html";
-            } else {
-                err.innerText = "Invalid Username or Password!";
-            }
+    <div class="input-group">
+        <input type="password" id="password" placeholder="Password...">
+        <span class="eye-icon" onclick="togglePass()">👁️</span>
+    </div>
+
+    <!-- پروجیکٹ ایریا -->
+    <input type="text" id="projName" placeholder="Enter project name...">
+    <textarea id="prompt" rows="3" placeholder="Enter your prompt here..." style="margin-top:10px;"></textarea>
+
+    <div class="grid">
+        <button onclick="selectTool(this, 'Text')">Text</button>
+        <button onclick="selectTool(this, 'Image')">Image</button>
+        <button onclick="selectTool(this, 'Video')">Video</button>
+        <button onclick="selectTool(this, 'Speech')">Speech</button>
+        <button onclick="selectTool(this, 'Audio')">Audio</button>
+        <button onclick="selectTool(this, 'Edit')">Edit</button>
+    </div>
+    
+    <button class="submit-btn" style="width: 100%; margin-top: 20px; padding: 15px;" onclick="submitReq()">Submit Request</button>
+</div>
+
+<script>
+    let currentTool = "";
+
+    function togglePass() {
+        let p = document.getElementById('password');
+        p.type = (p.type === 'password') ? 'text' : 'password';
+    }
+
+    function selectTool(btn, tool) {
+        document.querySelectorAll('.grid button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTool = tool;
+    }
+
+    async function submitReq() {
+        const data = {
+            email: document.getElementById('email').value,
+            prompt: document.getElementById('prompt').value,
+            tool: currentTool,
+            device: navigator.userAgent
+        };
+
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            alert("Success: " + result.message);
+        } catch(e) {
+            alert("Error connecting to server!");
         }
-    </script>
+    }
+</script>
 </body>
 </html>
