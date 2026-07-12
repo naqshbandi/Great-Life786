@@ -1,32 +1,61 @@
-<script>
-    let tool = "";
-    document.querySelectorAll('.grid button').forEach(button => {
-        button.onclick = function() {
-            document.querySelectorAll('.grid button').forEach(btn => btn.style.background = '');
-            this.style.background = '#007bff';
-            tool = this.innerText;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; background: #081221; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); width: 90%; max-width: 400px; }
+        h2 { text-align: center; margin-bottom: 20px; font-size: 24px; }
+        input, textarea { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 12px; margin-bottom: 10px; box-sizing: border-box; border-radius: 8px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        button { background: rgba(255, 255, 255, 0.1); border: 1px solid #007bff; color: white; padding: 12px; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #007bff; }
+        .submit-btn { width: 100%; margin-top: 15px; background: #007bff; font-weight: bold; padding: 15px; border: none; border-radius: 8px; cursor: pointer; color: white; }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <h2>Great Life 786 AI Studio</h2>
+        <input type="text" placeholder="Enter project name...">
+        <textarea rows="3" placeholder="Enter your prompt here..."></textarea>
+        <div class="grid">
+            <button>Text Generation</button>
+            <button>Image Generation</button>
+            <button>AI Video</button>
+            <button>Text-Speech</button>
+            <button>Audio Edit</button>
+            <button>Edit Project</button>
+        </div>
+        <button class="submit-btn">Submit Request</button>
+    </div>
+
+    <script>
+        let tool = "";
+        document.querySelectorAll('.grid button').forEach(button => {
+            button.onclick = function() {
+                document.querySelectorAll('.grid button').forEach(btn => btn.style.background = 'rgba(255, 255, 255, 0.1)');
+                this.style.background = '#007bff';
+                tool = this.innerText;
+            };
+        });
+
+        document.querySelector('.submit-btn').onclick = async function() {
+            const prompt = document.querySelector('textarea').value;
+            if (!tool || !prompt) { alert("Please select a tool and enter a prompt!"); return; }
+            
+            try {
+                const res = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt, tool: tool })
+                });
+                const data = await res.json();
+                alert(data.message || "Request Sent Successfully");
+            } catch (e) {
+                alert("Server connection failed.");
+            }
         };
-    });
-
-    //
-    document.querySelector('.submit-btn').onclick = async function() {
-        const prompt = document.querySelector('textarea').value;
-        
-        if (!tool || !prompt) {
-            alert("Slect Function Button!");
-            return;
-        }
-
-        try {
-            const res = await fetch('/api/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt, tool: tool })
-            });
-            const data = await res.json();
-            alert(data.message || "!");
-        } catch (error) {
-            alert("Can't reach server");
-        }
-    };
-</script>
+    </script>
+</body>
+</html>
