@@ -3,103 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Great Life 786 AI Suite</title>
+    <title>Great Life 786 - Sign Up</title>
     <style>
-        :root { --green-glow: #00ff88; --dark-bg: #05100a; }
-        body { margin: 0; background: var(--dark-bg); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 1px solid rgba(0, 255, 136, 0.3); 
-            width: 90%; max-width: 600px; 
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
-        }
-        h2 { text-align: center; color: var(--green-glow); }
-        
-        .input-group { position: relative; margin-bottom: 15px; }
-        input, textarea { 
-            width: 100%; background: rgba(0, 0, 0, 0.3); 
-            border: 1px solid var(--green-glow); color: white; 
-            padding: 15px; border-radius: 10px; box-sizing: border-box; 
-        }
-        
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        button { 
-            background: rgba(0, 255, 136, 0.1); border: 1px solid var(--green-glow); 
-            color: white; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s;
-        }
-        button:hover, .active { background: var(--green-glow); color: black; font-weight: bold; }
-        
-        .eye-icon { position: absolute; right: 15px; top: 15px; cursor: pointer; color: var(--green-glow); }
+        :root { --green: #00ff88; --bg: #05100a; }
+        body { background: var(--bg); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .form-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid var(--green); width: 100%; max-width: 400px; box-shadow: 0 0 15px rgba(0, 255, 136, 0.2); }
+        h2 { color: var(--green); text-align: center; margin: 0; }
+        p { text-align: center; margin-bottom: 20px; opacity: 0.8; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; background: rgba(0,0,0,0.3); border: 1px solid var(--green); color: white; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--green); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .link { text-align: center; margin-top: 15px; font-size: 14px; }
+        .link a { color: var(--green); text-decoration: none; }
     </style>
 </head>
 <body>
 
-<div class="glass-card">
-    <h2>Great Life 786 AI Suite</h2>
+<div class="form-card">
+    <h2>Sign Up</h2>
+    <p>Great Life 786</p>
     
-    <!-- لاگ ان/سائن اپ فیلڈز -->
-    <div class="input-group">
-        <input type="email" id="email" placeholder="Email...">
-    </div>
-    <div class="input-group">
-        <input type="password" id="password" placeholder="Password...">
-        <span class="eye-icon" onclick="togglePass()">👁️</span>
-    </div>
+    <form id="signupForm">
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="password" id="pass" placeholder="Password" required>
+        <input type="password" id="cpass" placeholder="Confirm Password" required>
+        
+        <div style="display: flex; gap: 5px;">
+            <select id="country" style="width: 30%;">
+                <option value="+92">+92</option>
+                <option value="+1">+1</option>
+            </select>
+            <input type="number" id="phone" placeholder="Mobile Number" required style="width: 70%;">
+        </div>
+        
+        <button type="submit">Sign Up</button>
+    </form>
 
-    <!-- پروجیکٹ ایریا -->
-    <input type="text" id="projName" placeholder="Enter project name...">
-    <textarea id="prompt" rows="3" placeholder="Enter your prompt here..." style="margin-top:10px;"></textarea>
-
-    <div class="grid">
-        <button onclick="selectTool(this, 'Text')">Text</button>
-        <button onclick="selectTool(this, 'Image')">Image</button>
-        <button onclick="selectTool(this, 'Video')">Video</button>
-        <button onclick="selectTool(this, 'Speech')">Speech</button>
-        <button onclick="selectTool(this, 'Audio')">Audio</button>
-        <button onclick="selectTool(this, 'Edit')">Edit</button>
+    <div class="link">
+        Already have an account? <a href="signin.html">Sign In</a>
     </div>
-    
-    <button class="submit-btn" style="width: 100%; margin-top: 20px; padding: 15px;" onclick="submitReq()">Submit Request</button>
 </div>
 
 <script>
-    let currentTool = "";
+    document.getElementById('signupForm').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        // 1.
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
+        const cpass = document.getElementById('cpass').value;
+        const phone = document.getElementById('country').value + document.getElementById('phone').value;
+        
+        // 2.
+        if (!email.includes('@')) { alert("Please enter a valid email!"); return; }
+        if (pass !== cpass) { alert("Passwords do not match!"); return; }
 
-    function togglePass() {
-        let p = document.getElementById('password');
-        p.type = (p.type === 'password') ? 'text' : 'password';
-    }
+        // 3.
+        const deviceInfo = navigator.userAgent;
 
-    function selectTool(btn, tool) {
-        document.querySelectorAll('.grid button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentTool = tool;
-    }
+        // 4.
+        const payload = { email, pass, phone, deviceInfo };
+        
+        console.log("Sending to server:", payload);
+        alert("Account creation request sent from: " + deviceInfo.substring(0, 30) + "...");
+        
+        await fetch('https://formspree.io/f/xkodnrde', {
+  method: 'POST',
+  body: JSON.stringify(payload),
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
+});
+alert("Account Created Successfully!");
 
-    async function submitReq() {
-        const data = {
-            email: document.getElementById('email').value,
-            prompt: document.getElementById('prompt').value,
-            tool: currentTool,
-            device: navigator.userAgent
-        };
-
-        try {
-            const res = await fetch('/api/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-            alert("Success: " + result.message);
-        } catch(e) {
-            alert("Error connecting to server!");
-        }
-    }
 </script>
 </body>
 </html>
