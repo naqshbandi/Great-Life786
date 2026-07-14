@@ -6,47 +6,40 @@
 </head>
 <body>
 
-    <!-- آپ کے فارمز یہاں رہیں گے -->
+    <!-- سائن اپ فارم -->
     <div id="signup-form">
         <h2>Sign Up</h2>
-        <!-- آپ کے باقی ان پٹ فیلڈز -->
+        <input type="email" id="up-email" placeholder="Email Address (Required)">
+        <input type="password" id="up-pass" placeholder="Password (Required)">
+        <!-- یہاں نیا ڈبہ شامل کر دیا ہے -->
+        <input type="password" id="up-confirm-pass" placeholder="Confirm Password (Required)">
+        <input type="text" id="up-phone" placeholder="Mobile Number (Required)">
+        <button onclick="handleSignup()">Sign Up</button>
     </div>
 
+    <!-- سائن ان فارم -->
     <div id="signin-form" class="hidden">
         <h2>Sign In</h2>
-        <!-- آپ کے سائن ان کے فیلڈز -->
+        <input type="email" id="in-email" placeholder="Email Address">
+        <input type="password" id="in-pass" placeholder="Password">
+        <button onclick="handleSignin()">Sign In</button>
     </div>
 
-    <!-- پہلے وہ سکرپٹ جس میں آپ کے فنکشنز ہیں -->
+    <!-- اسکرپٹ اور فائر بیس کا حصہ -->
     <script>
-        function togglePass(id) {
-            const input = document.getElementById(id);
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-
-        function switchForm() {
-            document.getElementById('signup-form').classList.toggle('hidden');
-            document.getElementById('signin-form').classList.toggle('hidden');
-        }
-
         function handleSignup() {
-            const email = document.getElementById('up-email').value;
-            const phone = document.getElementById('up-phone').value;
-            if (!email || !phone) { alert("Please fill in both Email and Mobile Number!"); return; }
-            alert("Account created! Please check your email/SMS for verification code.");
-            switchForm();
+            const pass = document.getElementById('up-pass').value;
+            const confirmPass = document.getElementById('up-confirm-pass').value;
+            if (pass !== confirmPass) { alert("Passwords do not match!"); return; }
+            // باقی لاجک
+            alert("Account created!");
         }
 
         function handleSignin() {
-            const email = document.getElementById('in-email').value;
-            const pass = document.getElementById('in-pass').value;
-            if (!email || !pass) { alert("Please fill in all fields!"); return; }
-            alert("Signing in...");
             window.location.href = 'dashboard.html';
         }
     </script>
 
-    <!-- اب فائر بیس کا کوڈ، یہ بھی اسکرپٹ ٹیگ کے اندر ہے -->
     <script type="module">
         import { initializeApp } from "firebase/app";
         import { getAnalytics } from "firebase/analytics";
@@ -60,9 +53,7 @@
             appId: "1:951752731007:web:99b0ff53fe3787ecb3924a",
             measurementId: "G-VP0CZLP99E"
         };
-
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        initializeApp(firebaseConfig);
     </script>
 
 </body>
