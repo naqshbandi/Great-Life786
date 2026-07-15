@@ -29,6 +29,20 @@
         </div>
         <button class="submit-btn">Submit Request</button>
     </div>
+    
+    <div id="loader" style="display: none; margin-top: 20px; text-align: center; color: #00ff66;">
+    <p>Processing...</p>
+</div>
+
+<div id="result-display" style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; border: 1px solid #00ff66; color: white; display: none;">
+    <h3 id="result-title" style="text-align: center;">Result</h3>
+    <div id="media-container" style="text-align: center; margin-bottom: 20px;">
+        <img id="output-image" src="" style="max-width: 100%; display: none; border-radius: 10px;">
+        <video id="output-video" controls style="max-width: 100%; display: none;"></video>
+    </div>
+    <div id="text-container" style="line-height: 1.6; font-size: 18px; text-align: justify;"></div>
+</div>
+
 
     <script>
         let tool = "";
@@ -40,24 +54,61 @@
             };
         });
 
-        document.querySelector('.submit-btn').onclick = async function() {
-            const prompt = document.querySelector('textarea').value;
-            if (!tool || !prompt) { alert("Please select a tool and enter a prompt!"); return; }
-            
-            try {
-                const res = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ prompt: prompt + " - Tool: " + tool })
 
-                });
-                const data = await res.json();
-               alert(data.id ? "Success! Prediction ID: " + data.id : (data.message || "Request Sent Successfully"));
- ");
-            } catch (e) {
-                alert("Server connection failed.");
+    document.querySelector('.submit-btn').onclick = async function() {
+        const prompt = document.querySelector('textarea').value;
+        const btn = document.querySelector('.submit-btn');
+        const resultDisplay = document.getElementById('result-display');
+        const loader = document.getElementById('loader');
+        const img = document.getElementById('output-image');
+        const video = document.getElementById('output-video');
+        const textContainer = document.getElementById('text-container');
+
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+        loader.style.display = "block";
+        resultDisplay.style.display = "none";
+        img.style.display = "none";
+        video.style.display = "none";
+        textContainer.innerText = "";
+
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                body: JSON.stringify({ prompt: prompt })
+            });
+
+            const data = await res.json();
+            
+            loader.style.display = "none";
+            btn.disabled = false;
+            btn.innerText = "Submit Request";
+            resultDisplay.style.display = "block";
+
+            if (data.output) {
+                if (typeof data.output === 'string' && data.output.includes('.mp4')) {
+                    video.src = data.output;
+                    video.style.display = "block";
+                } else if (typeof data.output === 'string' && (data.output.includes('.jpg') || data.output.includes('.png'))) {
+                    img.src = data.output;
+                    img.style.display = "block";
+                } else {
+                    textContainer.innerText = data.output;
+                }
+            } else {
+                textContainer.innerText = "Error: No output received.";
             }
-        };
+        } catch (e) {
+            loader.style.display = "none";
+            btn.disabled = false;
+            btn.innerText = "Submit Request";
+            alert("Server error: " + e.message);
+        }
+    };
+
+        
+
+        
     </script>
 
 <script type="module">
